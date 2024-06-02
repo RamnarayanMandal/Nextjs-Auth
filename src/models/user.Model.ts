@@ -33,16 +33,9 @@ const userSchema = new mongoose.Schema({
     forgotPasswordExpire: Date,
     verifyToken: String,
     verifyExpire: Date,
-    createdAt:{
-        type:Date,
-        default:Date.now()
-    },
-    updatedAt:{
-        type:Date,
-        default:Date.now()
-    }
+    
    
-});
+},{ timestamps: true });
 
 const User = mongoose.models.users||mongoose.model("users",userSchema);
 

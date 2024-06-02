@@ -1,49 +1,52 @@
 import User from '@/models/user.Model';
-import nodemailer from 'nodemailer'
-import bcryptjs from "bcryptjs"
+import nodemailer from 'nodemailer';
+import bcryptjs from 'bcryptjs';
 
-export const sendEmail = async ({email,emailType,userId}:any)=>{
+export const sendEmail = async ({ email, emailType, userId }: any) => {
     try {
-        
-      const hashToken = await bcryptjs.hash(userId.toString(),10) 
+        const hashToken = await bcryptjs.hash(userId.toString(), 10);
 
-        if(emailType==="VERIFY"){
-            await User.findById(userId,
-              {verifyToken:hashToken,
-                verifyExpire:Date.now()+36000000
-              }
-            )
+        if (emailType === "VERIFY") {
+            await User.findByIdAndUpdate(userId, {
+                verifyToken: hashToken,
+                verifyExpire: Date.now() + 3600000 
+            });
+        } else if (emailType === "RESET") {
+            await User.findByIdAndUpdate(userId, {
+                forgotPasswordToken: hashToken,
+                forgotPasswordExpire: Date.now() + 3600000 
+            });
         }
-        else if(emailType==="RESET"){ 
-          await User.findById(userId,
-            {forgotPasswordToken:hashToken,
-              forgotPasswordExpire:Date.now()+48000000
-            }
-          )
 
-        }
         const transporter = nodemailer.createTransport({
-            host: "smtp.ethereal.email",
-            port: 587,
-            secure: false, // Use `true` for port 465, `false` for all other ports
+            host: "sandbox.smtp.mailtrap.io",
+            port: 2525,
             auth: {
-              user: "maddison53@ethereal.email",
-              pass: "jn7jnAPss4f63QBp6D",
-            },
-          });
+                user: "45181a669c2f13",
+                pass: "587976a54ac537"
+            }
+        });
 
-          const mailoption ={
-            from: 'Ramnarayn@gmail', 
-            to: "email", 
-            subject: emailType==='VERIFY'?"Verify your email":"Reset your password", 
-            html: "<b>Hello world?</b>", 
-          }
+        const mailOptions = {
+            from: 'nextjsauth@gmail.com',
+            to: email,
+            subject: emailType === 'VERIFY' ? "Verify your email" : "Reset your password",
+            html: `<p>
+                     <a href="${process.env.DOMAIN}/${emailType === 'VERIFY' ? 'verifyemail' : 'resetpassword'}?token=${hashToken}">
+                       Click here
+                     </a> to ${emailType === "VERIFY" ? "verify your email" : "reset your password"}.
+                   </p>
+                   <p>
+                     Or copy and paste the link below into your browser:
+                     <br>
+                     ${process.env.DOMAIN}/${emailType === 'VERIFY' ? 'verifyemail' : 'resetpassword'}?token=${hashToken}
+                   </p>`,
+        };
 
-          const mailResponse = await transporter.sendMail(mailoption)
-          return mailResponse
-        
-    } catch (error:any) {
-        console.error(error)
-        throw new Error(error.message)
+        const mailResponse = await transporter.sendMail(mailOptions);
+        return mailResponse;
+    } catch (error: any) {
+        console.error(error);
+        throw new Error(error.message);
     }
-}
+};
