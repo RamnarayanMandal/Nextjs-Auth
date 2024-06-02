@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       responseUser,
-      message: " user sucessfully singup",
+      message: " user sucessfully singup and verification your email ",
       status: 201,
     });
   } catch (error: any) {

@@ -31,6 +31,9 @@ export async function POST(request: NextRequest) {
         if(!isPasswordCorrect) {
             return NextResponse.json({ message: "Password is incorrect" }, { status: 401 })
         }
+        if(!user.isVerified){
+            return NextResponse.json({ message: "User is not verified" }, { status: 401 })
+        }
 
         const tokenData = {
             id: user._id,
