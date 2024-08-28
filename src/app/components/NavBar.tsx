@@ -7,18 +7,7 @@ import Link from 'next/link';
 
 const NavBar = ({ className }: { className?: string }) => {
     const [active, setActive] = useState<string | null>(null);
-    const [displayLogout, setDisplayLogout] = useState<boolean>(false);
-    const email = localStorage.getItem('email');
-
-    useEffect(() => {
-       
-        if (email) {
-            setDisplayLogout(true);
-        }
-    }, [email]); 
-  
-  
-
+ 
     return (
         <div className={cn("fixed top-10 inset-x-0 max-w-2xl mx-auto z-50 lg:text-base md:text-base text-sm", className)}>
             <Menu setActive={setActive}>
@@ -37,18 +26,13 @@ const NavBar = ({ className }: { className?: string }) => {
                     </div>
                 </MenuItem> */}
 
-                {/* Conditional rendering of login/logout based on email presence */}
-                {displayLogout ? (
-                    <Link href="/logout">
-                    <MenuItem setActive={setActive} active={active} item="Logout" />
-                   </Link>
-                ) : (
+                
                     <Link href="/login">
                         <MenuItem setActive={setActive} active={active} item="Login" />
                     </Link>
-                )}
+           
 
-                <Link href="/signup">
+                <Link href="/singup">
                     <MenuItem setActive={setActive} active={active} item="Sign up" />
                 </Link>
             </Menu>

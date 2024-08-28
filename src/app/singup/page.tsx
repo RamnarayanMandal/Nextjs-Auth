@@ -86,11 +86,11 @@ const Page = () => {
   return (
     <>
       <ToastContainer/>
-      <div className="min-h-screen relative w-full overflow-hidden bg-slate-900 flex flex-col items-center justify-center rounded-lg lg:pt-14 md:pt-5 pt-2">
+      <div className="max-h-screen relative w-full overflow-hidden bg-slate-900 flex flex-col items-center justify-center rounded-lg lg:pt-14 md:pt-5 pt-2">
         <div className="absolute inset-0 w-full h-full  z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
 
         <Boxes />
-        <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input ">
+        <div className="max-w-md w-full h-screen mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input ">
           {loading ? (
             <span className="loader"></span>
           ) : (
@@ -144,7 +144,7 @@ const Page = () => {
                 />
               </LabelInputContainer>
               <LabelInputContainer className="mb-4 flex flex-row content-center items-center justify-start gap-2" >
-                <Label htmlFor="isAdmin" className="text-white mt-2">Admin</Label>
+                <Label htmlFor="isAdmin" className="text-white mt-2">Teacher</Label>
                 <Input
                   id="isAdmin"
                   type="checkbox"
