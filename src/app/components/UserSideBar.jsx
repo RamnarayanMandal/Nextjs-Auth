@@ -13,6 +13,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "../../utils/cn";
 import { FaPhoneAlt } from "react-icons/fa"; 
+import { IoAddCircle } from "react-icons/io5";
 
 export function UserSideBar() {
   const [userDetails, setUserDetails] = useState(null);
@@ -33,6 +34,7 @@ export function UserSideBar() {
         }
       );
       setUserDetails(response.data.data);
+      localStorage.setItem("userId", response.data.data._id)
     } catch (error) {
       console.error("Failed to fetch user details:", error);
     }
@@ -54,12 +56,24 @@ export function UserSideBar() {
       ),
     },
     {
-      label: "contact us",
+      label: "Contact Us",
       href: "/Contact",
       icon: (
-        <FaPhoneAlt className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" /> // Use the new icon here
+        <FaPhoneAlt className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
+    // Add course option only if user is Admin
+    ...(userDetails?.isAdmin
+      ? [
+          {
+            label: "Add Courses",
+            href: "/addCourses",
+            icon: (
+              <IoAddCircle className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+            ),
+          },
+        ]
+      : []),
     {
       label: "Logout",
       href: "/login",
@@ -177,7 +191,7 @@ const Dashboard = () => {
           {[...new Array(4)].map((_, i) => (
             <div
               key={"first-array" + i}
-              className="h-20 w-full rounded-lg  bg-gray-100 dark:bg-neutral-800 animate-pulse"
+              className="h-20 w-full rounded-lg bg-gray-100 dark:bg-neutral-800 animate-pulse"
             ></div>
           ))}
         </div>
@@ -185,7 +199,7 @@ const Dashboard = () => {
           {[...new Array(2)].map((_, i) => (
             <div
               key={"second-array" + i}
-              className="h-full w-full rounded-lg  bg-gray-100 dark:bg-neutral-800 animate-pulse"
+              className="h-full w-full rounded-lg bg-gray-100 dark:bg-neutral-800 animate-pulse"
             ></div>
           ))}
         </div>

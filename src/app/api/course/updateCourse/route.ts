@@ -2,15 +2,15 @@ import { connect } from "@/dbConfig/dbConfig";
 import { NextRequest,NextResponse } from "next/server";
 import course from "@/models/course";
 
-export async function put(request: NextRequest){
+export async function PUT(request: NextRequest){
     await connect()
     try {
         const reqBody = await request.json()
-        const { id, name, description, price, image, category } = reqBody
+        const { id, title, description, price, instructor } = reqBody
         if(!id){
             return NextResponse.json({ error: "Id is required" }, { status: 400 })
         }
-        const updatedCourse = await course.findByIdAndUpdate(id, { name, description, price, image, category }, { new: true })
+        const updatedCourse = await course.findByIdAndUpdate(id, {title, description, price, instructor }, { new: true })
         if(!updatedCourse){
             return NextResponse.json({ error: "Course not found" }, { status: 404 })
         }
