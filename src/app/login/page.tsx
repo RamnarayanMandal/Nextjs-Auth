@@ -39,8 +39,7 @@ const Page = () => {
       });
       router.push("/");  // Assuming /dashboard is the route after login
     } catch (error: any) {
-      console.log(error.response.data.message
-      );
+      console.log(error.response.data.message);
       toast.error(error.response.data.message, {
         position: "top-center",
         autoClose: 5000,
@@ -110,10 +109,9 @@ const Page = () => {
               </button>
               <div className="flex justify-center content-center items-center">
                 <Link href="/singup" className="my-8 text-center text-white">
-                  Don't have an account? Sign Up
+                  Don&apos;t have an account? Sign Up
                 </Link>
               </div>
-             
             </form>
           )}
         </div>
