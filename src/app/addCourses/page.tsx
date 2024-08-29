@@ -64,7 +64,7 @@ const Page: React.FC = () => {
     const userId = localStorage.getItem('userId');
     if (userId) {
       try {
-        await axios.put(`/api/course/updateCourse`,{ 
+        await axios.put(`/api/course/updateCourse`, { 
           ...course,
           id: course._id
         });
@@ -84,8 +84,8 @@ const Page: React.FC = () => {
   const handleDeleteCourse = async (id: string) => {
     if (deleteCourseId) {
       try {
-        await axios.delete(`/api/course/deleteCourse`,{
-          data: { courseId:id }
+        await axios.delete(`/api/course/deleteCourse`, {
+          data: { courseId: id }
         });
         fetchCourses();
         toast.success('Course deleted successfully!');
@@ -138,7 +138,7 @@ const Page: React.FC = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSave={handleUpdateCourse}
-        course={editCourse}
+        course={editCourse ?? undefined} // Handle `null` by passing `undefined`
       />
 
       <AddCourseModal
